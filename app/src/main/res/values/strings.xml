@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">AntiEpidemicSupport</string>
+    <string name="title_activity_maps" translatable="false">Map</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="buttonLogin">Login</string>
+    <string name="textFind">Retrieve password</string>
+    <string name="textNew">New account</string>
+    <string name="textPassword">Password</string>
+    <string name="textID">ID</string>
+    <string name="LoginImage" translatable="false">loginImage</string>
+    <string name="textView">This is Post Fragment</string>
+    <string name="textShow">This is addPost Fragment</string>
+    <string name="LoginFragment">Login</string>
+    <string name="PostFragment">Post</string>
+    <string name="AddFragment">AddPost</string>
+    <string name="textVision" translatable="false">YF@1.0</string>
+    <string name="hint">123\n456\n789\n</string>
+</resources>
