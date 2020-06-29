@@ -3,22 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navgraph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/postFragment">
 
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.smartnight.antiepidemicsupport.LoginFragment"
-        android:label="@string/LoginFragment"
-        tools:layout="@layout/fragment_login">
-        <action
-            android:id="@+id/action_loginFragment_to_postFragment"
-            app:destination="@id/postFragment" />
-    </fragment>
     <fragment
         android:id="@+id/postFragment"
         android:name="com.smartnight.antiepidemicsupport.PostFragment"
-        android:label="@string/PostFragment"
-        tools:layout="@layout/fragment_post">
+        android:label="fragment_post"
+        tools:layout="@layout/fragment_post" >
         <action
             android:id="@+id/action_postFragment_to_addPostFragment"
             app:destination="@id/addPostFragment" />
@@ -26,10 +17,20 @@
     <fragment
         android:id="@+id/addPostFragment"
         android:name="com.smartnight.antiepidemicsupport.AddPostFragment"
-        android:label="@string/AddFragment"
-        tools:layout="@layout/fragment_add_post">
+        android:label="fragment_add_post"
+        tools:layout="@layout/fragment_add_post" >
         <action
             android:id="@+id/action_addPostFragment_to_postFragment"
             app:destination="@id/postFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/meFragment"
+        android:name="com.smartnight.antiepidemicsupport.MeFragment"
+        android:label="fragment_me"
+        tools:layout="@layout/fragment_me" />
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.smartnight.antiepidemicsupport.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" />
 </navigation>

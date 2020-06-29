@@ -11,4 +11,11 @@
     <string name="LoginFragment">登陆</string>
     <string name="PostFragment">圈子</string>
     <string name="AddFragment">发帖</string>
+    <string name="navgation">导航模式</string>
+    <string name="emergencyShow">紧急颜色</string>
+    <string name="normal">普通模式</string>
+    <string name="searchBar">查找</string>
+    <string name="mapItem">地图</string>
+    <string name="postItem">圈子</string>
+    <string name="meItem">我的</string>
 </resources>

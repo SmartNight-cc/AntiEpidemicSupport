@@ -16,5 +16,14 @@
     <string name="PostFragment">Post</string>
     <string name="AddFragment">AddPost</string>
     <string name="textVision" translatable="false">YF@1.0</string>
-    <string name="hint">123\n456\n789\n</string>
+    <string name="hint" translatable="false">123\n456\n789\n</string>
+    <string name="addImage" translatable="false">add</string>
+    <string name="imagechoose" translatable="false">image</string>
+    <string name="navgation">Navigation mode</string>
+    <string name="emergencyShow">Emergency color</string>
+    <string name="normal">Normal mode</string>
+    <string name="searchBar">Search</string>
+    <string name="mapItem">Map</string>
+    <string name="postItem">Post</string>
+    <string name="meItem">Me</string>
 </resources>

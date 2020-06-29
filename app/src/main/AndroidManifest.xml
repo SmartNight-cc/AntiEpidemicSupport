@@ -37,6 +37,10 @@
             android:label="@string/title_activity_maps">
         </activity>
         <activity
+            android:name=".MainMainActivity"
+            android:windowSoftInputMode="adjustNothing">
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>
