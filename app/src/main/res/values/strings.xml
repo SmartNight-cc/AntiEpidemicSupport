@@ -26,4 +26,6 @@
     <string name="mapItem">Map</string>
     <string name="postItem">Post</string>
     <string name="meItem">Me</string>
+    <string name="AddPostHint">Write down your need or feeling</string>
+    <string name="google_map_key" translatable="false">AIzaSyDmRm-WTnl5nMApfxPIQLEa2c15d4SqZsY</string>
 </resources>

@@ -18,4 +18,5 @@
     <string name="mapItem">地图</string>
     <string name="postItem">圈子</string>
     <string name="meItem">我的</string>
+    <string name="AddPostHint">写下你的需要或感受</string>
 </resources>

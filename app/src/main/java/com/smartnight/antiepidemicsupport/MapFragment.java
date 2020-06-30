@@ -1,11 +1,16 @@
 package com.smartnight.antiepidemicsupport;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import android.provider.SyncStateContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,10 +18,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -24,11 +32,24 @@ import com.google.android.gms.maps.model.MarkerOptions;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MapFragment extends Fragment implements OnMapReadyCallback {
-
+public class MapFragment extends Fragment implements OnMapReadyCallback{
+    private static MapFragment mapFragment = null;
+    public static final int POSITION = 0;
+    private MapView mapView;
     private GoogleMap map;
+    private View mapLayout;
     public MapFragment() {
         // Required empty public constructor
+    }
+    public static Fragment getInstance(){
+        if(mapFragment ==null){
+            synchronized (MapFragment.class){
+                if(mapFragment == null){
+                    mapFragment = new MapFragment();
+                }
+            }
+        }
+        return mapFragment;
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -51,16 +72,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.mapmenu,menu);
 
-        FragmentActivity activity = requireActivity();
-        SearchView searchView =activity.findViewById(R.id.app_bar_search);
+        SearchView searchView = (SearchView) menu.findItem(R.id.app_bar_search).getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                //如果没有对应的地标，给出错误提示
+                //如果提交的地点没有匹配，给出提示
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String s) {
+                //显示备选地点
                 return false;
             }
         });
@@ -70,15 +92,69 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_map, container, false);
+        if(mapLayout == null){
+            Log.i("sys","MF onCreatView() null");
+            mapLayout = inflater.inflate(R.layout.fragment_map,null);
+            mapView = mapLayout.findViewById(R.id.mapView);
+            mapView.onCreate(savedInstanceState);
+            if(map == null){
+                mapView.getMapAsync(new OnMapReadyCallback() {
+                    @Override
+                    public void onMapReady(GoogleMap googleMap) {
+
+                    }
+                });
+            }
+        }else{
+            if(mapLayout.getParent() !=null){
+                ((ViewGroup)mapLayout.getParent()).removeView(mapLayout);
+            }
+        }
+        return mapLayout;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        Log.i("sys","mf onResume");
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        Log.i("sys","mf onPause");
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.i("sys","mf onDestroy");
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        Log.i("sys","mf onSaveInstanceState");
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        map = googleMap;
-
         LatLng sydney = new LatLng(-34, 151);
-        map.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        map.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }

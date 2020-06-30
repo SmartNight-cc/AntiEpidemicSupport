@@ -11,9 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.EditText;
 
 import com.giftedcat.picture.lib.PictureUseHelpr;
+import com.giftedcat.picture.lib.selector.MultiImageSelector;
 
 import java.util.List;
 
@@ -22,8 +24,6 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class AddPostFragment extends Fragment {
-    private List<String> image;
-    private RecyclerView recyclerView;
 
     public AddPostFragment() {
         // Required empty public constructor
@@ -35,13 +35,13 @@ public class AddPostFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_add_post, container, false);
     }
 
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         FragmentActivity activity = requireActivity();
         EditText editText = activity.findViewById(R.id.editText);
-        recyclerView = activity.findViewById(R.id.recycleView);
 
     }
 }
