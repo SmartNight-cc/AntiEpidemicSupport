@@ -27,10 +27,83 @@
         android:id="@+id/meFragment"
         android:name="com.smartnight.antiepidemicsupport.MeFragment"
         android:label="fragment_me"
-        tools:layout="@layout/fragment_me" />
+        tools:layout="@layout/fragment_me" >
+        <action
+            android:id="@+id/action_meFragment_to_track_account_Fragment"
+            app:destination="@id/track_account_Fragment" />
+        <action
+            android:id="@+id/action_meFragment_to_track_post_Fragment"
+            app:destination="@id/track_post_Fragment" />
+        <action
+            android:id="@+id/action_meFragment_to_edit_info_Fragment"
+            app:destination="@id/edit_info_Fragment" />
+        <action
+            android:id="@+id/action_meFragment_to_show_track_Fragment"
+            app:destination="@id/show_track_Fragment" />
+    </fragment>
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.smartnight.antiepidemicsupport.MapFragment"
         android:label="fragment_map"
         tools:layout="@layout/fragment_map" />
+    <fragment
+        android:id="@+id/track_account_Fragment"
+        android:name="com.smartnight.antiepidemicsupport.track_account_Fragment"
+        android:label="fragment_track_account_"
+        tools:layout="@layout/fragment_track_account_" >
+        <action
+            android:id="@+id/action_track_account_Fragment_to_meFragment"
+            app:destination="@id/meFragment" />
+        <action
+            android:id="@+id/action_track_account_Fragment_to_personal_Fragment"
+            app:destination="@id/personal_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/track_post_Fragment"
+        android:name="com.smartnight.antiepidemicsupport.track_post_Fragment"
+        android:label="fragment_track_post_"
+        tools:layout="@layout/fragment_track_post_" >
+        <action
+            android:id="@+id/action_track_post_Fragment_to_meFragment"
+            app:destination="@id/meFragment" />
+        <action
+            android:id="@+id/action_track_post_Fragment_to_personal_post_Fragment"
+            app:destination="@id/personal_post_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/personal_Fragment"
+        android:name="com.smartnight.antiepidemicsupport.personal_Fragment"
+        android:label="fragment_personal_"
+        tools:layout="@layout/fragment_personal_" >
+        <action
+            android:id="@+id/action_personal_Fragment_to_track_account_Fragment"
+            app:destination="@id/track_account_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/personal_post_Fragment"
+        android:name="com.smartnight.antiepidemicsupport.personal_post_Fragment"
+        android:label="fragment_personal_post_"
+        tools:layout="@layout/fragment_personal_post_" >
+        <action
+            android:id="@+id/action_personal_post_Fragment_to_track_post_Fragment"
+            app:destination="@id/track_post_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/edit_info_Fragment"
+        android:name="com.smartnight.antiepidemicsupport.Edit_info_Fragment"
+        android:label="fragment_edit_info_"
+        tools:layout="@layout/fragment_edit_info_" >
+        <action
+            android:id="@+id/action_edit_info_Fragment_to_meFragment"
+            app:destination="@id/meFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/show_track_Fragment"
+        android:name="com.smartnight.antiepidemicsupport.show_track_Fragment"
+        android:label="fragment_show_track_"
+        tools:layout="@layout/fragment_show_track_" >
+        <action
+            android:id="@+id/action_show_track_Fragment_to_meFragment"
+            app:destination="@id/meFragment" />
+    </fragment>
 </navigation>
