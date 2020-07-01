@@ -20,7 +20,7 @@
     <string name="addImage" translatable="false">add</string>
     <string name="imagechoose" translatable="false">image</string>
     <string name="navgation">Navigation mode</string>
-    <string name="emergencyShow">Emergency color</string>
+    <string name="emergencyShow">Emergency color mode</string>
     <string name="normal">Normal mode</string>
     <string name="searchBar">Search</string>
     <string name="mapItem">Map</string>
@@ -28,4 +28,6 @@
     <string name="meItem">Me</string>
     <string name="AddPostHint">Write down your need or feeling</string>
     <string name="google_map_key" translatable="false">AIzaSyDmRm-WTnl5nMApfxPIQLEa2c15d4SqZsY</string>
+    <string name="map_message">It\'s already in </string>
+    <string name="cancel">Cancel</string>
 </resources>

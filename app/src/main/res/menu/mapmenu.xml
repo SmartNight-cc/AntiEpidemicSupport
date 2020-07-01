@@ -9,12 +9,20 @@
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="always" />
     <item
+        android:id="@+id/item_normal"
+        android:enabled="true"
+        android:title="@string/normal"
+        android:visible="true" />
+    <item
         android:id="@+id/item_navigation"
-        android:title="@string/navgation" />
+        android:checkable="false"
+        android:enabled="true"
+        android:title="@string/navgation"
+        android:visible="true" />
     <item
         android:id="@+id/item_emergency"
-        android:title="@string/emergencyShow" />
-    <item
-        android:id="@+id/item_normal"
-        android:title="@string/normal" />
+        android:checkable="false"
+        android:enabled="true"
+        android:title="@string/emergencyShow"
+        android:visible="true" />
 </menu>
