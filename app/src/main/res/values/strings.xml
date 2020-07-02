@@ -32,4 +32,7 @@
     <string name="cancel">Cancel</string>
     <string name="addPhoto" translatable="false">add</string>
     <string name="buttonAddPicture">AddPicture</string>
+    <string name="quit_action">Are you Sure to quit\?</string>
+    <string name="QUIT_PISOTIVE">YES</string>
+    <string name="QUIT_NRGATIVE">NO</string>
 </resources>

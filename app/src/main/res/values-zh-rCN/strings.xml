@@ -22,4 +22,7 @@
     <string name="map_message">当前已处于</string>
     <string name="cancel">取消</string>
     <string name="buttonAddPicture">添加图片</string>
+    <string name="quit_action">确定要退出？</string>
+    <string name="QUIT_PISOTIVE">确定</string>
+    <string name="QUIT_NRGATIVE">取消</string>
 </resources>
