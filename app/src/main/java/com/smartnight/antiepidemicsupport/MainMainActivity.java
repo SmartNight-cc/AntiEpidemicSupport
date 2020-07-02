@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.multidex.MultiDex;
 import androidx.navigation.NavController;
@@ -22,6 +23,7 @@ public class MainMainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainmain);
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         Log.d("sys","mainMainActivity"+this);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -35,6 +37,6 @@ public class MainMainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         Log.d("sys","mainMainActivity resultCode:"+resultCode);
         super.onActivityResult(requestCode, resultCode, data);
-        new AddPostFragment().onActivityResult(requestCode,resultCode,data);
+        new PostFragment().onActivityResult(requestCode,resultCode,data);
     }
 }

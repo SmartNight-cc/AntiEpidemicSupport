@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.giftedcat.picture.lib.selector.MultiImageSelector;
 
 import java.util.ArrayList;
 
@@ -96,7 +97,10 @@ public class ReleaseMsgAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemCount() {
-        return mList.size() + 1;
+            if(mList == null){
+                return 0;
+            }
+            return mList.size() + 1;
         //为空size=0，但是有一张加号图片
     }
 

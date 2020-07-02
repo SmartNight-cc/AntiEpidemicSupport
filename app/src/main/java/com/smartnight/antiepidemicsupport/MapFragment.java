@@ -39,7 +39,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapFragment extends Fragment implements OnMapReadyCallback{
     private static MapFragment mapFragment = null;
     public static final int POSITION = 0;
-    private MapView mapView;
+    private MapView mMap;
     private GoogleMap map;
     private View mapLayout;
     private int CURRENT_MODEL;//记录当前地图模式，避免重复消耗
@@ -96,12 +96,42 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
             }
         });
     }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        double lat = 40.73;
+        double lng = -73.99;
+        LatLng appointLoc = new LatLng(lat, lng);
+        // 移动地图到指定经度的位置
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(appointLoc));
+        //添加标记到指定经纬度
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title("Marker")
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         setHasOptionsMenu(true);
 
+        mapLayout = inflater.inflate(R.layout.fragment_map,null);
+        mMap = (MapView) mapLayout.findViewById(R.id.mapView);
+        mMap.onCreate(savedInstanceState);
+        mMap.onResume();
+        try {
+            MapsInitializer.initialize(requireActivity());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        int errorCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(requireActivity());
+        if (ConnectionResult.SUCCESS != errorCode) {
+            GooglePlayServicesUtil.getErrorDialog(errorCode, requireActivity(), 0).show();
+        } else {
+            mMap.getMapAsync(this);
+        }
+        return mapLayout;
+        /*
         if(mapLayout == null){
             Log.i("sys","MF onCreatView() null");
             mapLayout = inflater.inflate(R.layout.fragment_map,null);
@@ -120,9 +150,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                 ((ViewGroup)mapLayout.getParent()).removeView(mapLayout);
             }
         }
-        return mapLayout;
+        return mapLayout;*/
     }
-    @Override
+    /*@Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
     }
@@ -159,5 +189,5 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
         LatLng sydney = new LatLng(-34, 151);
         googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-    }
+    }*/
 }
