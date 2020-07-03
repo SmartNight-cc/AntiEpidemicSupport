@@ -1,19 +1,20 @@
 package com.smartnight.antiepidemicsupport;
 
+import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +26,9 @@ import java.util.List;
  */
 public class MeFragment extends Fragment {
 
+    //组件
+    private ImageView Myprofile;
+    private TextView Myname;
     private Button edit;
     private Button track_acount,track_post;
     private ListView lview1,lview2;
@@ -51,8 +55,14 @@ public class MeFragment extends Fragment {
         // Inflate the layout for this fragment设置布局文件
        View view = inflater.inflate(R.layout.fragment_me, container, false);
 
-       //编辑信息
-        edit = view.findViewById(R.id.edit_btn);
+        Myprofile = view.findViewById(R.id.profile);//头像
+        Myname = view.findViewById(R.id.name);//昵称
+        edit = view.findViewById(R.id.edit_btn);//编辑按钮
+        track_acount=view.findViewById(R.id.account);//关注用户
+        track_post=view.findViewById(R.id.post);//关注帖子
+
+
+       //编辑信息点击事件
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,11 +71,7 @@ public class MeFragment extends Fragment {
             }
         });
 
-       //关注用户和帖子
-        track_acount=view.findViewById(R.id.account);
-        track_post=view.findViewById(R.id.post);
-
-       //关注用户和帖子的点击事件
+       //关注用户的点击事件
         track_acount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,6 +80,7 @@ public class MeFragment extends Fragment {
             }
         });
 
+        //帖子的点击事件
         track_post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,7 +88,6 @@ public class MeFragment extends Fragment {
                 navController.navigate(R.id.action_meFragment_to_track_post_Fragment);
             }
         });
-
 
 
         //找到两个ListView组件
@@ -148,5 +154,13 @@ public class MeFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    //修改信息
+    public void setData(HashMap<String, Object> elem){
+        String name = (String)elem.get("name");
+        Uri edit_profile = (Uri)elem.get("profile");
+        Myname.setText(name);
+        Myprofile.setImageURI(edit_profile);
     }
 }

@@ -42,6 +42,5 @@ public class AddPostFragment extends Fragment {
         FragmentActivity activity = requireActivity();
         EditText editText = activity.findViewById(R.id.editText);
         recyclerView = activity.findViewById(R.id.recycleView);
-
     }
 }

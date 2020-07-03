@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">AntiEpidemicSupport</string>
     <string name="title_activity_maps" translatable="false">Map</string>
@@ -26,4 +27,17 @@
     <string name="mapItem">Map</string>
     <string name="postItem">Post</string>
     <string name="meItem">Me</string>
+    <string name="name" translatable="false">名字</string>
+    <string name="ID" translatable="false">账号</string>
+    <string name="addr" translatable="false">地址</string>
+    <string name="edit" translatable="false">编辑信息</string>
+    <string name="choose" translatable="false">从相册选择</string>
+    <string name="todo" translatable="false">TODO</string>
+    <string name="Identity" translatable="false">身份</string>
+    <string name="Inst" translatable="false">中转点</string>
+    <string name="OK" translatable="false">确认</string>
+    <string name="account_track" translatable="false">关注用户</string>
+    <string name="post_track" translatable="false">关注帖子</string>
+    <string name="record" translatable="false">交易记录</string>
+    <string name="logistics" translatable="false">物流信息</string>
 </resources>

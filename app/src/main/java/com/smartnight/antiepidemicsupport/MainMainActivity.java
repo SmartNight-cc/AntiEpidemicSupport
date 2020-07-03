@@ -1,6 +1,9 @@
 package com.smartnight.antiepidemicsupport;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.inputmethod.InputMethodManager;
 
@@ -16,6 +19,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainMainActivity extends AppCompatActivity {
 
     private  NavController navController;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +32,7 @@ public class MainMainActivity extends AppCompatActivity {
         }
         NavigationUI.setupActionBarWithNavController(this,navController);
 
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         NavController navController = Navigation.findNavController(this,R.id.fragment);
         AppBarConfiguration configuration = new AppBarConfiguration.Builder(bottomNavigationView.getMenu()).build();
@@ -34,6 +40,11 @@ public class MainMainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(bottomNavigationView,navController);
 
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
