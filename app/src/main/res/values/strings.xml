@@ -35,4 +35,11 @@
     <string name="quit_action">Are you Sure to quit\?</string>
     <string name="QUIT_PISOTIVE">YES</string>
     <string name="QUIT_NRGATIVE">NO</string>
+    <string name="textName">Name</string>
+    <string name="textnumber">Number</string>
+    <string name="buttonre">Register</string>
+    <string name="NoNewCount">PhoneNumber or Password doesn\'t conform to specification</string>
+    <string name="NewCount">Registered Successfully</string>
+    <string name="wrong">Wrong account or password</string>
+    <string name="pass">Enter a 6-16 digit password</string>
 </resources>

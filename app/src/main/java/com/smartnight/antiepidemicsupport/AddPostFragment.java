@@ -1,7 +1,9 @@
 package com.smartnight.antiepidemicsupport;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -10,6 +12,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +91,14 @@ public class AddPostFragment extends Fragment {
             try {
                 //原图
                 Bitmap bitmap = BitmapFactory.decodeStream(contentResolver.openInputStream(uri));
+                /*保存图片
+                SharedPreferences shp = requireActivity().getSharedPreferences("UserFile", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = shp.edit();
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG,50,out);
+                String PIC64 = new String(Base64.encodeToString(out.toByteArray(),Base64.DEFAULT));
+                editor.putString("Picture",PIC64);
+                editor.commit();*/
                 //压缩后的图
                 bitmap = centerSquareScaleBitmap(bitmap,250);
                 list.get(PhotoNumber-1).setImageBitmap(bitmap);

@@ -25,4 +25,11 @@
     <string name="quit_action">确定要退出？</string>
     <string name="QUIT_PISOTIVE">确定</string>
     <string name="QUIT_NRGATIVE">取消</string>
+    <string name="textName">昵称</string>
+    <string name="textnumber">手机号</string>
+    <string name="buttonre">注册</string>
+    <string name="NoNewCount">手机号或密码不符合规范</string>
+    <string name="NewCount">注册成功</string>
+    <string name="wrong">账号或密码错误</string>
+    <string name="pass">请输入6-16位密码</string>
 </resources>

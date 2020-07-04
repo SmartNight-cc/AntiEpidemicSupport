@@ -1,5 +1,6 @@
 package com.smartnight.antiepidemicsupport;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -9,52 +10,49 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 public class MainActivity extends AppCompatActivity {
+    NavController navController;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
-        final EditText textID,textPassWord;
-        final Button buttonLogin;
-        textID = findViewById(R.id.editUserID);
-        textPassWord = findViewById(R.id.editPassword);
-        buttonLogin = findViewById(R.id.buttonLogin);
+        navController = Navigation.findNavController(this,R.id.fragment3);
+        NavigationUI.setupActionBarWithNavController(this,navController);
+    }
+    @Override
+    public boolean onSupportNavigateUp() {
+        if(navController.getCurrentDestination().getId() == R.id.creatFragment){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(getString(R.string.quit_action));
+            builder.setPositiveButton(R.string.QUIT_PISOTIVE, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    navController.navigateUp();
+                }
+            });
+            builder.setNegativeButton(R.string.QUIT_NRGATIVE, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }else{
+            //其他页面的非物理back键功能
+        }
+        return super.onSupportNavigateUp();
+    }
 
-        //两个输入框都有内容时登陆按键才可点击
-        buttonLogin.setEnabled(false);
-        TextWatcher textWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String id = textID.getText().toString().trim();
-                String password = textPassWord.getText().toString().trim();
-                buttonLogin.setEnabled(!id.isEmpty() && !password.isEmpty());
-            }
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
-        };
-        textID.addTextChangedListener(textWatcher);
-        textPassWord.addTextChangedListener(textWatcher);
-
-        buttonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String id = textID.getText().toString().trim();
-                String password = textPassWord.getText().toString().trim();
-
-                //判断是否用户名和密码对应，否则给出错误提示toast直接return
-
-                Intent intent = new Intent(MainActivity.this,MainMainActivity.class);
-                startActivity(intent);
-            }
-        });
+    @Override
+    public void onBackPressed() {
+        onSupportNavigateUp();
     }
 }
