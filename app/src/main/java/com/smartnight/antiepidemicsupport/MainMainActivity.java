@@ -1,8 +1,13 @@
 package com.smartnight.antiepidemicsupport;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+
 import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -17,6 +22,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainMainActivity extends AppCompatActivity {
     private NavController navController;
+
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +64,9 @@ public class MainMainActivity extends AppCompatActivity {
         }else{
             //其他页面的非物理back键功能
         }
+        InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(findViewById(R.id.fragment).getWindowToken(),0);
+        //返回页不保留键盘
         return super.onSupportNavigateUp();
     }
 
