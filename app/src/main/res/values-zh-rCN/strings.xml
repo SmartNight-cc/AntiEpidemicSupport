@@ -32,4 +32,9 @@
     <string name="NewCount">注册成功</string>
     <string name="wrong">账号或密码错误</string>
     <string name="pass">请输入6-16位密码</string>
+    <string name="done">已处理</string>
+    <string name="getSMS">获取验证码</string>
+    <string name="sms">验证码</string>
+    <string name="giveItem">捐献</string>
+    <string name="receiveItem">援助</string>
 </resources>

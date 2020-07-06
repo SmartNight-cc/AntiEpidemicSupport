@@ -59,4 +59,6 @@
     <string name="giveItem">Give</string>
     <string name="receiveItem">Receive</string>
     <string name="done">Done</string>
+    <string name="getSMS">Get captcha</string>
+    <string name="sms">Captcha</string>
 </resources>

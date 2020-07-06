@@ -3,6 +3,7 @@ package com.smartnight.antiepidemicsupport;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,7 @@ public class GiveFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_give, container, false);
 
-        ListView listView = view.findViewById(R.id.listView);
+        RecyclerView recyclerView = view.findViewById(R.id.recycleView);
         TextView textView = view.findViewById(R.id.textView);
 
         String father = "山东省";
@@ -54,11 +55,9 @@ public class GiveFragment extends Fragment {
             item.put("text3",text3);
             list.add(item);
         }
-        SimpleAdapter simpleAdapter =
-                new SimpleAdapter(this.getContext(),list,R.layout.stationitem,
-                        new String[]{"text1","text2","text3"},
-                        new int[]{R.id.textView3,R.id.textView5,R.id.textView6});
-        listView.setAdapter(simpleAdapter);
+
+        StationAdapter adapter = new StationAdapter();
+
 
         return view;
     }
