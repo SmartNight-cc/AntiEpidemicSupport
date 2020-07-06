@@ -70,15 +70,25 @@ public class LoginFragment extends Fragment {
             public void onClick(View view) {
                 String id = textID.getText().toString().trim();
                 String password = textPassWord.getText().toString().trim();
-
-                //判断是否用户名和密码对应，否则给出错误提示toast直接return
-                SharedPreferences shp = getActivity().getSharedPreferences("UserFile", Context.MODE_PRIVATE);
-                String realpassWord = shp.getString("PassWord",null);
-                if(realpassWord.equals(password)){
-                    Intent intent =new Intent(getActivity(),MainMainActivity.class);
-                    startActivity(intent);
+                //判断：中转站账号五位，用户大于等于六位
+                if(id.length()<=5){
+                    SharedPreferences shp = getActivity().getSharedPreferences("StationFile", Context.MODE_PRIVATE);
+                    String realpassWord = shp.getString("PassWord",null);
+                    if(realpassWord.equals(password)){
+                        Intent intent =new Intent(getActivity(),StationActivity.class);
+                        startActivity(intent);
+                    }else{
+                        Toast.makeText(requireActivity(),R.string.wrong, Toast.LENGTH_SHORT).show();
+                    }
                 }else{
-                    Toast.makeText(requireActivity(),R.string.wrong, Toast.LENGTH_SHORT).show();
+                    SharedPreferences shp = getActivity().getSharedPreferences("UserFile", Context.MODE_PRIVATE);
+                    String realpassWord = shp.getString("PassWord",null);
+                    if(realpassWord.equals(password)){
+                        Intent intent =new Intent(getActivity(),MainMainActivity.class);
+                        startActivity(intent);
+                    }else{
+                        Toast.makeText(requireActivity(),R.string.wrong, Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
