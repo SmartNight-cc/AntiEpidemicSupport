@@ -19,10 +19,4 @@
         android:enabled="true"
         android:title="@string/navgation"
         android:visible="true" />
-    <item
-        android:id="@+id/item_emergency"
-        android:checkable="false"
-        android:enabled="true"
-        android:title="@string/emergencyShow"
-        android:visible="true" />
 </menu>

@@ -27,6 +27,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.hjq.bar.OnTitleBarListener;
+import com.hjq.bar.TitleBar;
 import com.mob.MobSDK;
 
 import cn.smssdk.EventHandler;
@@ -43,6 +45,7 @@ public class CreatFragment extends Fragment implements View.OnClickListener{
     private int i = 50;//计时器
     private EditText editname,editpass,editnum,editsms;
     private Button button,buttonsms;
+    TitleBar titleBar;
 
     public CreatFragment() {
         // Required empty public constructor
@@ -68,6 +71,23 @@ public class CreatFragment extends Fragment implements View.OnClickListener{
         buttonsms = view.findViewById(R.id.buttongetsms);
         button.setOnClickListener(this);
         buttonsms.setOnClickListener(this);
+        titleBar = view.findViewById(R.id.titleBar);
+        titleBar.setOnTitleBarListener(new OnTitleBarListener() {
+            @Override
+            public void onLeftClick(View v) {
+                Navigation.findNavController(requireActivity(),R.id.fragment3).navigateUp();
+            }
+
+            @Override
+            public void onTitleClick(View v) {
+
+            }
+
+            @Override
+            public void onRightClick(View v) {
+
+            }
+        });
 
         MobSDK.init(requireActivity(),APPKEY,APPSECTET);
         EventHandler eventHandler = new EventHandler(){

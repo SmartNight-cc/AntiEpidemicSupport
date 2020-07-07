@@ -28,7 +28,6 @@
     <string name="postItem">Post</string>
     <string name="meItem">Me</string>
     <string name="AddPostHint">Write down your need or feeling</string>
-    <string name="google_map_key" translatable="false">AIzaSyBwmwZKoeAFpXIqZhahQIqZ_cyeeW2VT-Y</string>
     <string name="map_message">It\'s already in </string>
     <string name="cancel">Cancel</string>
     <string name="addPhoto" translatable="false">add</string>
@@ -61,4 +60,5 @@
     <string name="done">Done</string>
     <string name="getSMS">Get captcha</string>
     <string name="sms">Captcha</string>
+    <string name="prepare">Preparing in the map...</string>
 </resources>

@@ -37,4 +37,5 @@
     <string name="sms">验证码</string>
     <string name="giveItem">捐献</string>
     <string name="receiveItem">援助</string>
+    <string name="prepare">地图正在准备...</string>
 </resources>

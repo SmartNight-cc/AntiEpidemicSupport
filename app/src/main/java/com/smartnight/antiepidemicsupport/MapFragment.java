@@ -42,6 +42,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     public MapFragment() {
         // Required empty public constructor
     }
+
     public static Fragment getInstance(){
         if(mapFragment ==null){
             synchronized (MapFragment.class){
@@ -52,6 +53,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
         }
         return mapFragment;
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         //记录上一次选择的模式，如果连续两次选择相同的，给出已在当前模式的提示
@@ -61,8 +63,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
             CURRENT_MODEL = item.getItemId();
             switch(item.getItemId()){
                 case R.id.item_normal:
-                    break;
-                case R.id.item_emergency:
                     break;
                 case R.id.item_navigation:
                     break;
@@ -108,7 +108,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                 mapView.getMapAsync(new OnMapReadyCallback() {
                     @Override
                     public void onMapReady(GoogleMap googleMap) {
-
+                        LatLng sydney = new LatLng(-34, 151);
+                        googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
                     }
                 });
             }
@@ -124,7 +126,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
     }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
