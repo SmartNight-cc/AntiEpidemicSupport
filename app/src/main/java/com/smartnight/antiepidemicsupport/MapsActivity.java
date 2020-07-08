@@ -26,6 +26,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -40,7 +41,9 @@ import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.PolyUtil;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,6 +58,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -192,170 +201,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         String sensor = "sensor=false";
         // Travelling Mode
         String mode = "mode=driving";
-        String waypointLatLng = "waypoints="+"40.036675"+","+"116.32885";
-        // 如果使用途径点，需要添加此字段 String waypoints = "waypoints=";
+
         String parameters = null;
         // Building the parameters to the web service
-        parameters = str_origin + "&" + str_dest + "&" + sensor + "&" + mode + "&" +waypointLatLng;
+        parameters = str_origin + "&" + str_dest + "&" + sensor + "&" + mode + "&key="+R.string.google_maps_key ;
         // Output format
-        String output = "json";
+        String output = "xml";
         // Building the url to the web service
         String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
         System.out.println("getDerectionsURL--->: " + url);
         return url;
-    }
-
-    //请求url得到json数据
-    private String getjson(String strurl) throws IOException{
-        String data = "";
-        InputStream inputStream = null;
-        HttpURLConnection urlConnection = null;
-        try{
-            URL url = new URL(strurl);
-            urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.connect();
-            inputStream = urlConnection.getInputStream();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuffer stringBuffer = new StringBuffer();
-            String line = "";
-            while((line = bufferedReader.readLine())!=null){
-                stringBuffer.append(line);
-            }
-            data = stringBuffer.toString();
-            bufferedReader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }finally {
-            inputStream.close();
-            urlConnection.disconnect();
-        }
-        return data;
-    }
-
-    //异步获取json数据
-    private class GetJsonTask extends AsyncTask<String,Void,String>{
-        @Override
-        protected String doInBackground(String... strings) {
-            String data = null;
-            try{
-                data = getjson(strings[0]);
-            } catch (IOException e) {
-                System.out.println("getjsonError!");
-                e.printStackTrace();
-            }
-            return data;
-        }
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            ParserTask parserTask = new ParserTask();
-            parserTask.execute(s);
-        }
-    }
-
-    //异步操作，转换json数据显示在地图上
-    private class ParserTask extends AsyncTask<String,Integer,List<List<HashMap<String, String>>>>{
-        @Override
-        protected List<List<HashMap<String, String>>> doInBackground(String... strings) {
-            JSONObject object;
-            List<List<HashMap<String, String>>> routes = null;
-            try{
-                object = new JSONObject(strings[0]);
-                DirectionJSONParser parser = new DirectionJSONParser();
-                routes = parser.parse(object);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return routes;
-        }
-        @Override
-        protected void onPostExecute(List<List<HashMap<String, String>>> lists) {
-            ArrayList<LatLng> points = null;
-            PolylineOptions polylineOptions = null;
-            MarkerOptions markerOptions = new MarkerOptions();
-
-            for(int i=0;i<lists.size();i++){
-                points = new ArrayList<LatLng>();
-                polylineOptions = new PolylineOptions();
-                List<HashMap<String, String>> path = lists.get(i);
-                for(int j=0;j<path.size();j++){
-                    HashMap<String, String> point = path.get(j);
-                    double lat = Double.parseDouble(point.get("lat"));
-                    double lng = Double.parseDouble(point.get("lng"));
-                    LatLng position = new LatLng(lat,lng);
-                    points.add(position);
-                }
-                polylineOptions.addAll(points);
-                polylineOptions.width(5);
-                polylineOptions.color(Color.GREEN);
-                polylineOptions.jointType(JointType.ROUND);
-            }
-            mMap.addPolyline(polylineOptions);
-        }
-    }
-
-    //解析json获取路线点集
-    private class DirectionJSONParser{
-        public List<List<HashMap<String,String>>> parse(JSONObject jsonObject){
-            List<List<HashMap<String,String>>> routes = new ArrayList<List<HashMap<String,String>>>();
-            JSONArray jRoutes = null , jLegs = null , jSteps = null;
-            try{
-                jRoutes = jsonObject.getJSONArray("routes");
-                for(int i=0;i<jRoutes.length();i++){
-                    jLegs = ((JSONObject)jRoutes.get(i)).getJSONArray("legs");
-                    List path = new ArrayList<HashMap<String,String>>();
-                    for(int j=0;j<jLegs.length();j++){
-                        jSteps = ((JSONObject)jLegs.get(j)).getJSONArray("steps");
-                        for(int k=0;k<jSteps.length();k++){
-                            String polyline = "";
-                            polyline = (String) ((JSONObject) ((JSONObject) jSteps.get(k)).get("polyline")).get("points");
-                            List<LatLng> list = decodePoly(polyline);
-                            for(int l=0;l<list.size();l++){
-                                HashMap<String,String> hm = new HashMap<String,String>();
-                                hm.put("lat", Double.toString(((LatLng) list.get(l)).latitude));
-                                hm.put("lng", Double.toString(((LatLng) list.get(l)).longitude));
-                                path.add(hm);
-                            }
-                        }
-                        routes.add(path);
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }catch (Exception e){
-
-            }
-            return routes;
-        }
-        //解析返回的xml
-        private List<LatLng> decodePoly(String encoded) {
-            List<LatLng> poly = new ArrayList<LatLng>();
-            int index = 0, len = encoded.length();
-            int lat = 0, lng = 0;
-            while (index < len) {
-                int b, shift = 0, result = 0;
-                do {
-                    b = encoded.charAt(index++) - 63;
-                    result |= (b & 0x1f) << shift;
-                    shift += 5;
-                } while (b >= 0x20);
-                int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-                lat += dlat;
-                shift = 0;
-                result = 0;
-                do {
-                    b = encoded.charAt(index++) - 63;
-                    result |= (b & 0x1f) << shift;
-                    shift += 5;
-                } while (b >= 0x20);
-                int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-                lng += dlng;
-                LatLng p = new LatLng((((double) lat / 1E5)),
-                        (((double) lng / 1E5)));
-                poly.add(p);
-            }
-            return poly;
-        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -387,8 +242,41 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        GetJsonTask task = new GetJsonTask();
-        task.execute(url);
+        OkHttpClient okHttpClient = new OkHttpClient();
+        final Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Toast.makeText(getApplicationContext(),"找不到路线",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String line = response.body().string();
+                System.out.println("getResponse--->: " + line);
+                drawPath(line);
+            }
+        });
+
+        requestLocationPermission();
+    }
+
+    private void drawPath(String string){
+        int begin = string.indexOf("<points>");
+        int end = string.indexOf("</points>");
+        String points = string.substring(begin+8,end);
+        System.out.println("getPoints--->: " + points);
+        List<LatLng> path = PolyUtil.decode(points);
+        PolylineOptions polylineOptions = new PolylineOptions();
+        polylineOptions.addAll(path);
+        polylineOptions.color(Color.GREEN);
+        polylineOptions.jointType(JointType.ROUND);
+        polylineOptions.width(15f);
+        mMap.addPolyline(polylineOptions);
     }
 
     @SuppressLint("MissingPermission")
