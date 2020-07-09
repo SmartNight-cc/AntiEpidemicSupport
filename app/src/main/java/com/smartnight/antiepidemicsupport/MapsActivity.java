@@ -25,6 +25,7 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -42,6 +43,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.PolyUtil;
+import com.hjq.bar.OnTitleBarListener;
+import com.hjq.bar.TitleBar;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -76,6 +79,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Location location;//当前设备的地址
     private LocationManager locationManager;
     private LocationListener locationListener;
+    private TitleBar titleBar;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("RestrictedApi")
@@ -108,6 +112,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         };
 
         button = findViewById(R.id.startOtherMap);
+        titleBar = findViewById(R.id.titleBar);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -126,10 +131,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 handleLocation(locationResult.getLastLocation());
             }
         };
+        titleBar.setOnTitleBarListener(new OnTitleBarListener() {
+            @Override
+            public void onLeftClick(View v) {
+                Intent intent =new Intent(getApplicationContext(),MainMainActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onTitleClick(View v) {
+
+            }
+
+            @Override
+            public void onRightClick(View v) {
+
+            }
+        });
 
         //获取当前设备地址，成功
         getLocation();
-        System.out.println("getLocation--->: " + location.toString());
+        Toast.makeText(this,location.toString(),Toast.LENGTH_SHORT).show();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -201,14 +223,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         String sensor = "sensor=false";
         // Travelling Mode
         String mode = "mode=driving";
-
         String parameters = null;
         // Building the parameters to the web service
-        parameters = str_origin + "&" + str_dest + "&" + sensor + "&" + mode + "&key="+R.string.google_maps_key ;
+        parameters = str_origin + "&" + str_dest + "&" + sensor + "&" + mode + "&key=AIzaSyAMU4eyQvmq-DH-lV43B3frToKQb7vZvts";
         // Output format
-        String output = "xml";
+        String output = "json";
         // Building the url to the web service
-        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
+        String url = "https://maps.google.com/maps/api/directions/" + output + "?" + parameters;
         System.out.println("getDerectionsURL--->: " + url);
         return url;
     }
@@ -226,8 +247,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng start = new LatLng(location.getLatitude(),location.getLongitude());
         mMap.addMarker(new MarkerOptions().position(start).title("你的位置"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(start));
+
         //获取中转站经纬度
-        LatLng end = new LatLng(37.07,114.48);
+        final LatLng end = new LatLng(37.07,114.48);
         //获取请求url
         final String url = getDirectionsUrl(start,end);
 
@@ -237,12 +259,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
-                intent.setData(Uri.parse(url));
+
+                String line = "https://www.google.com/maps/dir/?api=1&origin="
+                +location.getLatitude()+","+location.getLongitude()+
+                        "&destination="+end.latitude+","+end.longitude;
+                intent.setData(Uri.parse(line));
                 startActivity(intent);
             }
         });
 
-        OkHttpClient okHttpClient = new OkHttpClient();
+        /*OkHttpClient okHttpClient = new OkHttpClient();
         final Request request = new Request.Builder()
                 .url(url)
                 .get()
@@ -260,7 +286,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 System.out.println("getResponse--->: " + line);
                 drawPath(line);
             }
-        });
+        });*/
 
         requestLocationPermission();
     }

@@ -2,18 +2,13 @@ package com.smartnight.antiepidemicsupport;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
+import android.view.Window;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
-
-import com.hjq.bar.OnTitleBarListener;
-import com.hjq.bar.TitleBar;
 
 public class MainActivity extends AppCompatActivity {
     NavController navController;
@@ -23,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         navController = Navigation.findNavController(this,R.id.fragment3);
-        //NavigationUI.setupActionBarWithNavController(this,navController);
     }
     @Override
     public boolean onSupportNavigateUp() {

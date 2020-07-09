@@ -2,6 +2,7 @@ package com.smartnight.antiepidemicsupport;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -10,7 +11,9 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.util.Base64;
 import android.util.Log;
@@ -21,6 +24,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.hjq.bar.OnTitleBarListener;
+import com.hjq.bar.TitleBar;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -34,7 +40,9 @@ public class AddPostFragment extends Fragment {
     private ImageView imageView1,imageView2,imageView3,imageView4,imageView5,imageView6,imageView7,imageView8,imageView9;
     private List<ImageView> list = new ArrayList<>();
     Button button;
+    Bitmap bitmap[],bitmapCompress[];
     private int PhotoNumber;
+    TitleBar titleBar;
 
     public AddPostFragment() {
         // Required empty public constructor
@@ -46,7 +54,7 @@ public class AddPostFragment extends Fragment {
 
         activity = (MainMainActivity)getActivity();
         Log.d("sys","fragmentActivity:"+activity);
-        View view = inflater.inflate(R.layout.fragment_add_post,container,false);
+        final View view = inflater.inflate(R.layout.fragment_add_post,container,false);
         editText = view.findViewById(R.id.editText);
         imageView1 = (ImageView)view.findViewById(R.id.imageViewadd1);
         imageView2 = (ImageView)view.findViewById(R.id.imageViewadd2);
@@ -58,7 +66,10 @@ public class AddPostFragment extends Fragment {
         imageView8 = (ImageView)view.findViewById(R.id.imageViewadd8);
         imageView9 = (ImageView)view.findViewById(R.id.imageViewadd9);
         button = view.findViewById(R.id.button2);
+        titleBar = view.findViewById(R.id.titleBar);
         PhotoNumber = 0;
+        bitmap = new Bitmap[9];
+        bitmapCompress = new Bitmap[9];
 
         list.add(imageView1);list.add(imageView2);list.add(imageView3);list.add(imageView4);
         list.add(imageView5);list.add(imageView6);list.add(imageView7);list.add(imageView8);list.add(imageView9);
@@ -77,6 +88,44 @@ public class AddPostFragment extends Fragment {
                 }
             }
         });
+
+        titleBar.setOnTitleBarListener(new OnTitleBarListener() {
+            @Override
+            public void onLeftClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                builder.setTitle(getString(R.string.quit_action));
+                builder.setPositiveButton(R.string.QUIT_PISOTIVE, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Navigation.findNavController(view).navigateUp();
+                    }
+                });
+                builder.setNegativeButton(R.string.QUIT_NRGATIVE, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+
+            @Override
+            public void onTitleClick(View v) {
+
+            }
+
+            @Override
+            public void onRightClick(View v) {
+                String context = editText.getText().toString();
+                if(context == null){
+                    Toast.makeText(requireContext(),"发表内容不可以为空",Toast.LENGTH_SHORT).show();
+                }else{
+                    Post post = new Post(context,bitmapCompress,123);
+                    //展示给圈子界面显示
+                    Navigation.findNavController(view).navigateUp();
+                }
+            }
+        });
         return view;
     }
     @Override
@@ -90,7 +139,7 @@ public class AddPostFragment extends Fragment {
             ContentResolver contentResolver = activity.getContentResolver();
             try {
                 //原图
-                Bitmap bitmap = BitmapFactory.decodeStream(contentResolver.openInputStream(uri));
+                Bitmap bitmapa = BitmapFactory.decodeStream(contentResolver.openInputStream(uri));
                 /*保存图片
                 SharedPreferences shp = requireActivity().getSharedPreferences("UserFile", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = shp.edit();
@@ -100,8 +149,10 @@ public class AddPostFragment extends Fragment {
                 editor.putString("Picture",PIC64);
                 editor.commit();*/
                 //压缩后的图
-                bitmap = centerSquareScaleBitmap(bitmap,250);
-                list.get(PhotoNumber-1).setImageBitmap(bitmap);
+                Bitmap bitmapCompressa = centerSquareScaleBitmap(bitmapa,250);
+                bitmap[PhotoNumber-1] = bitmapa;
+                bitmapCompress[PhotoNumber-1]  = bitmapCompressa;
+                list.get(PhotoNumber-1).setImageBitmap(bitmapCompressa);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

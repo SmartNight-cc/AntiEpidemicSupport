@@ -10,6 +10,7 @@
     tools:context=".Edit_info_Fragment">
 
     <!-- TODO: Update blank fragment layout -->
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="30dp"
@@ -32,12 +33,13 @@
 
         <Button
             android:id="@+id/choose_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="40dp"
+            android:layout_marginStart="70dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/choose"
-            android:layout_marginStart="10dp" />
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_look3"
+            android:text="@string/choose" />
     </LinearLayout>
 
     <LinearLayout
@@ -55,15 +57,16 @@
 
         <EditText
             android:id="@+id/input_name"
-            android:layout_weight="7"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_gravity="bottom"
-            android:inputType="text"
+            android:layout_weight="7"
+            android:autofillHints=""
+            android:background="@drawable/text_look"
             android:hint="@string/name"
+            android:inputType="text"
             android:selectAllOnFocus="true"
-            android:textColorHint="#95A1AA"
-            android:autofillHints="" />
+            android:textColorHint="#95A1AA" />
 
     </LinearLayout>
 
@@ -80,17 +83,13 @@
             android:text="@string/ID"
             />
 
-        <EditText
-            android:id="@+id/input_ID"
+        <TextView
+            android:id="@+id/show_ID"
             android:layout_weight="7"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:inputType="number"
-            android:hint="@string/ID"
-            android:selectAllOnFocus="true"
-            android:textColorHint="#95A1AA"
-            android:autofillHints="" />
+            android:layout_gravity="center"
+            />
 
     </LinearLayout>
 
@@ -109,16 +108,16 @@
 
         <EditText
             android:id="@+id/input_addr"
-            android:layout_weight="7"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_gravity="bottom"
-            android:inputType="text"
-            android:hint="@string/addr"
-            android:selectAllOnFocus="true"
-            android:textColorHint="#95A1AA"
+            android:layout_weight="7"
             android:autofillHints=""
-            />
+            android:background="@drawable/text_look"
+            android:hint="@string/addr"
+            android:inputType="text"
+            android:selectAllOnFocus="true"
+            android:textColorHint="#95A1AA" />
 
     </LinearLayout>
 
@@ -135,17 +134,12 @@
             android:text="@string/Identity"
             />
 
-        <EditText
-            android:id="@+id/input_identity"
+        <TextView
+            android:id="@+id/show_identity"
             android:layout_weight="7"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:inputType="text"
-            android:hint="@string/Identity"
-            android:selectAllOnFocus="true"
-            android:textColorHint="#95A1AA"
-            android:autofillHints=""
+            android:layout_gravity="center"
             />
 
     </LinearLayout>
@@ -160,29 +154,30 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/Inst"
+            android:text="pwd"
             />
 
         <EditText
-            android:id="@+id/input_inst"
-            android:layout_weight="7"
+            android:id="@+id/input_pwd"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_gravity="bottom"
-            android:inputType="text"
-            android:hint="@string/Inst"
-            android:selectAllOnFocus="true"
-            android:textColorHint="#95A1AA"
+            android:layout_weight="7"
             android:autofillHints=""
-            />
+            android:background="@drawable/text_look"
+            android:hint="pwd"
+            android:inputType="text"
+            android:selectAllOnFocus="true"
+            android:textColorHint="#95A1AA" />
 
     </LinearLayout>
 
     <Button
         android:id="@+id/edit_ok"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
         android:layout_gravity="center"
-        android:text="@string/OK"
-        />
+        android:layout_marginTop="30dp"
+        android:background="@drawable/button_look3"
+        android:text="@string/OK" />
 </LinearLayout>

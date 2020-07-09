@@ -42,5 +42,4 @@ public class MapFragment extends Fragment{
         startActivity(intent);
         return inflater.inflate(R.layout.fragment_map,container,false);
     }
-
 }

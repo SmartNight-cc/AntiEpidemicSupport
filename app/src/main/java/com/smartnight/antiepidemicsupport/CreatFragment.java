@@ -3,12 +3,14 @@ package com.smartnight.antiepidemicsupport;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -75,9 +77,22 @@ public class CreatFragment extends Fragment implements View.OnClickListener{
         titleBar.setOnTitleBarListener(new OnTitleBarListener() {
             @Override
             public void onLeftClick(View v) {
-                Navigation.findNavController(requireActivity(),R.id.fragment3).navigateUp();
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                builder.setTitle(getString(R.string.quit_action));
+                builder.setPositiveButton(R.string.QUIT_PISOTIVE, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Navigation.findNavController(requireActivity(),R.id.fragment3).navigateUp();
+                    }
+                });
+                builder.setNegativeButton(R.string.QUIT_NRGATIVE, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
-
             @Override
             public void onTitleClick(View v) {
 
@@ -141,6 +156,7 @@ public class CreatFragment extends Fragment implements View.OnClickListener{
                 if(i1 == SMSSDK.RESULT_COMPLETE){
                     //短信验证成功
                     if(i == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE){
+                        //用户信息传到服务器，本地保存
                         Intent intent =new Intent(getActivity(),MainMainActivity.class);
                         startActivity(intent);
                     }else if(i == SMSSDK.EVENT_GET_VOICE_VERIFICATION_CODE){
@@ -189,7 +205,6 @@ public class CreatFragment extends Fragment implements View.OnClickListener{
                 break;
         }
     }
-
     //正则表达式验证手机号格式
     public static boolean isMoblieNumber(String number){
         /*
@@ -207,7 +222,6 @@ public class CreatFragment extends Fragment implements View.OnClickListener{
         else
             return number.matches(telRegex);
     }
-
     @Override
     public void onDestroy() {
         SMSSDK.unregisterAllEventHandler();

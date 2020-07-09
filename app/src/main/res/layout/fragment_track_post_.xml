@@ -12,11 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="关注帖子"
-        android:textSize="20dp"
-        android:textColor="#3B831C" />
+        android:textColor="#d7b29e"
+        android:textSize="20dp" />
 
     <ListView
-        android:id="@+id/post_list"
+        android:id="@+id/track_post_listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="10dp">

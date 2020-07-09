@@ -11,6 +11,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline26"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.98" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.22" />
+
         <com.hjq.bar.TitleBar
             android:id="@+id/titleBar"
             android:layout_width="match_parent"
@@ -100,6 +114,7 @@
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/guideline12"
             app:layout_constraintEnd_toStartOf="@+id/guideline10"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline12"
             app:layout_constraintVertical_bias="0.5" />
@@ -108,18 +123,14 @@
             android:id="@+id/editText3"
             android:layout_width="0dp"
             android:layout_height="45dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
             android:background="@drawable/text_look"
             android:ems="10"
             android:inputType="textPersonName"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/guideline11"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/guideline26"
             app:layout_constraintHorizontal_bias="0.1"
-            app:layout_constraintStart_toStartOf="@+id/guideline10"
+            app:layout_constraintStart_toStartOf="@+id/guideline25"
             app:layout_constraintTop_toTopOf="@+id/guideline11"
             app:layout_constraintVertical_bias="0.5" />
 
@@ -127,17 +138,15 @@
             android:id="@+id/editText4"
             android:layout_width="0dp"
             android:layout_height="45dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
             android:background="@drawable/text_look"
             android:ems="10"
             android:hint="@string/pass"
             android:inputType="textPersonName"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/guideline12"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/guideline26"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/editText3"
+            app:layout_constraintStart_toStartOf="@+id/guideline25"
             app:layout_constraintTop_toTopOf="@+id/guideline12"
             app:layout_constraintVertical_bias="0.533" />
 
@@ -145,18 +154,14 @@
             android:id="@+id/editText5"
             android:layout_width="0dp"
             android:layout_height="45dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
             android:background="@drawable/text_look"
             android:ems="10"
             android:inputType="textPersonName"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/guideline13"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/guideline26"
             app:layout_constraintHorizontal_bias="0.163"
-            app:layout_constraintStart_toStartOf="@+id/guideline10"
+            app:layout_constraintStart_toStartOf="@+id/guideline25"
             app:layout_constraintTop_toTopOf="@+id/guideline13"
             app:layout_constraintVertical_bias="0.444" />
 
@@ -175,16 +180,12 @@
         <Button
             android:id="@+id/buttongetsms"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:background="@drawable/button_look"
+            android:layout_height="45dp"
+            android:background="@drawable/button_look2"
             android:text="@string/getSMS"
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@+id/guideline23"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/guideline26"
             app:layout_constraintStart_toStartOf="@+id/guideline24"
             app:layout_constraintTop_toTopOf="@+id/guideline23" />
 
@@ -203,17 +204,17 @@
 
         <EditText
             android:id="@+id/editsms"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="45dp"
-            android:background="@drawable/text_look"
+            android:background="@drawable/text_look2"
             android:ems="10"
             android:inputType="textPersonName"
             app:layout_constraintBottom_toTopOf="@+id/guideline23"
-            app:layout_constraintEnd_toEndOf="@+id/editText5"
-            app:layout_constraintHorizontal_bias="0.074"
-            app:layout_constraintStart_toStartOf="@+id/guideline10"
+            app:layout_constraintEnd_toStartOf="@+id/guideline24"
+            app:layout_constraintHorizontal_bias="0.571"
+            app:layout_constraintStart_toStartOf="@+id/guideline25"
             app:layout_constraintTop_toTopOf="@+id/guideline23"
-            app:layout_constraintVertical_bias="0.555" />
+            app:layout_constraintVertical_bias="0.533" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

@@ -34,13 +34,11 @@ public class MainMainActivity extends AppCompatActivity {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         //底部导航功能
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        navController = Navigation.findNavController(this,R.id.fragment);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView1);
+        navController = Navigation.findNavController(this,R.id.fragment2);
         AppBarConfiguration configuration = new AppBarConfiguration.Builder(bottomNavigationView.getMenu()).build();
         NavigationUI.setupActionBarWithNavController(this,navController,configuration);
         NavigationUI.setupWithNavController(bottomNavigationView,navController);
-
-        NavigationUI.setupActionBarWithNavController(this,navController);
     }
 
     @Override
@@ -63,9 +61,10 @@ public class MainMainActivity extends AppCompatActivity {
             dialog.show();
         }else{
             //其他页面的非物理back键功能
+            navController.navigateUp();
         }
         InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(findViewById(R.id.fragment).getWindowToken(),0);
+        inputMethodManager.hideSoftInputFromWindow(findViewById(R.id.fragment2).getWindowToken(),0);
         //返回页不保留键盘
         return super.onSupportNavigateUp();
     }

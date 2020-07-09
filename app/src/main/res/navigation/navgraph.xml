@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_postFragment_to_addPostFragment"
             app:destination="@id/addPostFragment" />
+        <action
+            android:id="@+id/action_postFragment_to_personal_Fragment"
+            app:destination="@id/personal_Fragment" />
     </fragment>
     <fragment
         android:id="@+id/addPostFragment"
@@ -66,9 +69,6 @@
         <action
             android:id="@+id/action_track_post_Fragment_to_meFragment"
             app:destination="@id/meFragment" />
-        <action
-            android:id="@+id/action_track_post_Fragment_to_personal_post_Fragment"
-            app:destination="@id/personal_post_Fragment" />
     </fragment>
     <fragment
         android:id="@+id/personal_Fragment"
@@ -78,15 +78,9 @@
         <action
             android:id="@+id/action_personal_Fragment_to_track_account_Fragment"
             app:destination="@id/track_account_Fragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/personal_post_Fragment"
-        android:name="com.smartnight.antiepidemicsupport.personal_post_Fragment"
-        android:label="fragment_personal_post_"
-        tools:layout="@layout/fragment_personal_post_" >
         <action
-            android:id="@+id/action_personal_post_Fragment_to_track_post_Fragment"
-            app:destination="@id/track_post_Fragment" />
+            android:id="@+id/action_personal_Fragment_to_postFragment"
+            app:destination="@id/postFragment" />
     </fragment>
     <fragment
         android:id="@+id/edit_info_Fragment"

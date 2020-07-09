@@ -1,6 +1,7 @@
 package com.smartnight.antiepidemicsupport;
 
 import android.os.Bundle;
+import android.view.Window;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,7 @@ public class StationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_station);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView2);

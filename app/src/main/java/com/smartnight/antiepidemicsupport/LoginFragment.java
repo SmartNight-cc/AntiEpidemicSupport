@@ -72,23 +72,27 @@ public class LoginFragment extends Fragment {
                 String password = textPassWord.getText().toString().trim();
                 //判断：中转站账号五位，用户大于等于六位
                 if(id.length()<=5){
-                    SharedPreferences shp = getActivity().getSharedPreferences("StationFile", Context.MODE_PRIVATE);
-                    String realpassWord = shp.getString("PassWord",null);
-                    if(realpassWord.equals(password)){
+                    //根据账号从服务器获取密码，判断是否正确，若正确获取其他信息保存到本地
+                    Intent intent =new Intent(getActivity(),StationActivity.class);
+                    startActivity(intent);
+                    /*if(realpassWord.equals(password)){
                         Intent intent =new Intent(getActivity(),StationActivity.class);
                         startActivity(intent);
                     }else{
                         Toast.makeText(requireActivity(),R.string.wrong, Toast.LENGTH_SHORT).show();
-                    }
+                    }*/
                 }else{
-                    SharedPreferences shp = getActivity().getSharedPreferences("UserFile", Context.MODE_PRIVATE);
+                    //根据账号从服务器获取密码
+                    Intent intent =new Intent(getActivity(),MainMainActivity.class);
+                    startActivity(intent);
+                    /*SharedPreferences shp = getActivity().getSharedPreferences("UserFile", Context.MODE_PRIVATE);
                     String realpassWord = shp.getString("PassWord",null);
                     if(realpassWord.equals(password)){
                         Intent intent =new Intent(getActivity(),MainMainActivity.class);
                         startActivity(intent);
                     }else{
                         Toast.makeText(requireActivity(),R.string.wrong, Toast.LENGTH_SHORT).show();
-                    }
+                    }*/
                 }
             }
         });
