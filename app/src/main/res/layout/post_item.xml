@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:orientation="horizontal">
+
+        <com.smartnight.antiepidemicsupport.SquareImageView
+            android:id="@+id/post_profile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            tools:src="@drawable/ic_me" />
+
+        <TextView
+            android:id="@+id/post_name"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:text="July"
+            android:textColor="@color/colorText"
+            android:textSize="25sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/post_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="content"
+        android:textColor="#322A2A"
+        android:textSize="20sp" />
+
+    <android.widget.GridLayout
+        android:id="@+id/gridlayout_post"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal"
+        android:columnCount="3">
+
+        <com.smartnight.antiepidemicsupport.SquareImageView
+            android:id="@+id/post_pic1"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_margin="4dp"
+            android:scaleType="centerCrop"
+            tools:targetApi="lollipop" />
+
+        <com.smartnight.antiepidemicsupport.SquareImageView
+            android:id="@+id/post_pic2"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_margin="4dp"
+            android:scaleType="centerCrop"
+            tools:targetApi="lollipop" />
+
+        <com.smartnight.antiepidemicsupport.SquareImageView
+            android:id="@+id/post_pic3"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_margin="4dp"
+            android:scaleType="centerCrop"
+            tools:targetApi="lollipop" />
+
+        <com.smartnight.antiepidemicsupport.SquareImageView
+            android:id="@+id/post_pic4"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_margin="4dp"
+            android:scaleType="centerCrop"
+            tools:targetApi="lollipop" />
+
+        <com.smartnight.antiepidemicsupport.SquareImageView
+            android:id="@+id/post_pic5"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_margin="4dp"
+            android:scaleType="centerCrop"
+            tools:targetApi="lollipop" />
+
+        <com.smartnight.antiepidemicsupport.SquareImageView
+            android:id="@+id/post_pic6"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_margin="4dp"
+            android:scaleType="centerCrop"
+            tools:targetApi="lollipop" />
+
+        <com.smartnight.antiepidemicsupport.SquareImageView
+            android:id="@+id/post_pic7"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_margin="4dp"
+            android:scaleType="centerCrop"
+            tools:targetApi="lollipop" />
+
+        <com.smartnight.antiepidemicsupport.SquareImageView
+            android:id="@+id/post_pic8"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_margin="4dp"
+            android:scaleType="centerCrop"
+            tools:targetApi="lollipop" />
+
+        <com.smartnight.antiepidemicsupport.SquareImageView
+            android:id="@+id/post_pic9"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_margin="4dp"
+            android:scaleType="centerCrop"
+            tools:targetApi="lollipop" />
+    </android.widget.GridLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="right"
+        android:orientation="horizontal"
+        tools:ignore="RtlHardcoded">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginRight="10dp"
+            >
+            <com.smartnight.antiepidemicsupport.SquareImageView
+                android:id="@+id/concern"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/watch"
+                tools:targetApi="lollipop" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="concern"
+                android:textColor="#322A2A"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/concern_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="1k+"
+                android:textColor="#322A2A"
+                android:textSize="12sp" />
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginRight="10dp"
+            >
+
+            <com.smartnight.antiepidemicsupport.SquareImageView
+                android:id="@+id/vote"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/vote"
+                tools:targetApi="lollipop" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="vote"
+                android:textColor="#322A2A"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/vote_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="1.5w+"
+                android:textColor="#322A2A"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginRight="10dp"
+            >
+
+            <com.smartnight.antiepidemicsupport.SquareImageView
+                android:id="@+id/value"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/value"
+                tools:targetApi="lollipop" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="value"
+                android:textColor="#322A2A"
+                android:textSize="12sp"  />
+
+
+            <TextView
+                android:id="@+id/vote_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="3.5w+"
+                android:textColor="#322A2A"
+                android:textSize="12sp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

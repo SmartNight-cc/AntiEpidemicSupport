@@ -28,7 +28,6 @@
     <string name="postItem">Post</string>
     <string name="meItem">Me</string>
     <string name="AddPostHint">Write down your need or feeling</string>
-    <string name="google_map_key" translatable="false">AIzaSyDmRm-WTnl5nMApfxPIQLEa2c15d4SqZsY</string>
     <string name="map_message">It\'s already in </string>
     <string name="cancel">Cancel</string>
     <string name="addPhoto" translatable="false">add</string>
@@ -56,4 +55,11 @@
     <string name="post_track" translatable="false">关注帖子</string>
     <string name="record" translatable="false">交易记录</string>
     <string name="logistics" translatable="false">物流信息</string>
+    <string name="giveItem">Give</string>
+    <string name="receiveItem">Receive</string>
+    <string name="done">Done</string>
+    <string name="getSMS">Get captcha</string>
+    <string name="sms">Captcha</string>
+    <string name="prepare">Preparing in the map...</string>
+    <string name="INITVALUE" translatable="false">20</string>
 </resources>

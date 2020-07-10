@@ -1,29 +1,17 @@
 package com.smartnight.antiepidemicsupport;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
-import android.provider.Settings;
-import android.text.TextUtils;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,24 +19,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.lang.annotation.Target;
-import java.util.HashMap;
+import com.hjq.bar.OnTitleBarListener;
+import com.hjq.bar.TitleBar;
 
-import static android.app.Activity.RESULT_OK;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,6 +41,8 @@ import static android.app.Activity.RESULT_OK;
 
 public class Edit_info_Fragment extends Fragment{
 
+    TitleBar titleBar;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -66,21 +51,16 @@ public class Edit_info_Fragment extends Fragment{
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     public static final int RESULT_OK = 1;
 
-
-    //布局中的组件
+    SharedPreferences shp;
+    private SharedPreferences.Editor editor;
     private MainMainActivity mainMainActivity ;
-    private MeFragment meFragment;
-    private Button ok,choose_pic;
+    //布局中的组件
     private ImageView image;
-    private EditText text_name,text_addr,text_identity,text_inst;
-
-   //获得的信息
+    //可修改的信息
+    private String name,addr,pwd;
     private Bitmap bitmap;
-    private String name,addr,identity,inst;
-
 
     public Edit_info_Fragment() {
         // Required empty public constructor
@@ -116,15 +96,113 @@ public class Edit_info_Fragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
+        //得到SharedPreferences
+        shp = requireActivity().getSharedPreferences("UserFile", Context.MODE_PRIVATE);
+        editor = shp.edit();
+        //获得父Activity
         mainMainActivity = (MainMainActivity) getActivity();
-
-
+        //找到组件
         View view = inflater.inflate(R.layout.fragment_edit_info_, container, false);
-        ok = view.findViewById(R.id.edit_ok);
-        choose_pic = view.findViewById(R.id.choose_btn);
-        image = view.findViewById(R.id.edit_profile);
-        //从相册选择图片
+        titleBar = view.findViewById(R.id.titleBar);
+        Button ok = view.findViewById(R.id.edit_ok);//确认按钮
+        Button choose_pic = view.findViewById(R.id.choose_btn);//选择照片按钮
+        image = view.findViewById(R.id.edit_profile);//头像组件
+        TextView show_identity = view.findViewById(R.id.show_identity);
+        TextView show_ID = view.findViewById(R.id.show_ID);
+        //输入框
+        EditText text_name = view.findViewById(R.id.input_name);
+        EditText text_addr = view.findViewById(R.id.input_addr);
+        EditText text_pwd = view.findViewById(R.id.input_pwd);
+
+        titleBar.setOnTitleBarListener(new OnTitleBarListener() {
+            @Override
+            public void onLeftClick(final View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                builder.setTitle(getString(R.string.quit_action));
+                builder.setPositiveButton(R.string.QUIT_PISOTIVE, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Navigation.findNavController(v).navigateUp();
+                    }
+                });
+                builder.setNegativeButton(R.string.QUIT_NRGATIVE, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+
+            @Override
+            public void onTitleClick(View v) {
+
+            }
+
+            @Override
+            public void onRightClick(View v) {
+
+            }
+        });
+
+        //显示原来的信息
+        //showInfo(text_name, show_ID,text_addr, show_identity,text_pwd);
+
+        //昵称输入框监听器事件
+        text_name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                name = editable.toString();
+            }
+        });
+
+        //地址输入框监听器事件
+        text_addr.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                addr = editable.toString();
+            }
+        });
+
+        //密码输入框监听器事件
+        text_pwd.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                pwd = editable.toString();
+            }
+        });
+
+        //从相册选择图片事件
         choose_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -140,43 +218,77 @@ public class Edit_info_Fragment extends Fragment{
             }
         });
 
-        //确认信息,传回和修改数据
+        //确认信息,传回和修改数据事件
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavController navController = Navigation.findNavController(view);
-                //传回头像数据
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("profile",bitmap);
-                navController.navigate(R.id.action_edit_info_Fragment_to_meFragment,bundle);
-                //navController.navigate(R.id.action_edit_info_Fragment_to_meFragment);
+                //修改个人信息
+                if(bitmap!=null){
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();//头像
+                    bitmap.compress(Bitmap.CompressFormat.JPEG,50,out);
+                    String PIC64 = new String(Base64.encodeToString(out.toByteArray(), android.util.Base64.DEFAULT));
+                    editor.putString("Picture",PIC64);
+                }
+                if(name!=null){
+                    editor.putString("Name",name);//姓名
+                }
+                if(addr!=null){
+                    editor.putString("Address",addr);//地址
+                }
+                if(pwd!=null){
+                    editor.putString("Password",pwd);//密码
+                }
+                editor.commit();
+                //返回个人资料页面
+                navController.navigate(R.id.action_edit_info_Fragment_to_meFragment);
             }
         });
         return view;
     }
 
+    /**
+     *  显示原来的信息到界面上
+     */
+    public void showInfo(EditText text_name, TextView show_ID, EditText text_addr, TextView show_identity, EditText text_pwd){
+            text_name.setHint(shp.getString("Name",""));
+            show_ID.setText(shp.getString("ID",""));
+            text_addr.setHint(shp.getString("Address",""));
+            show_identity.setText(shp.getString("Identity",""));
+            text_pwd.setHint(shp.getString("PassWord",""));
+            //头像
+            String pic = shp.getString("Picture","");
+            if(pic!=null){
+                byte[] bytes = Base64.decode(pic.getBytes(),1);
+                bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                image.setImageBitmap(bitmap);
+            }
+        }
+    /**
+     *  处理照片选取结果
+     */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         //从相册选取
         if (requestCode == RESULT_OK) {
-                Uri uri = data.getData();
-                ContentResolver cr = mainMainActivity.getContentResolver();
-                // startSmallPhotoZoom(data.getData());
-                try {
+            Uri uri = data.getData();
+            ContentResolver cr = mainMainActivity.getContentResolver();
+            // startSmallPhotoZoom(data.getData());
+            try {
+                if(uri!=null) {
                     //设置编辑页面的头像
+                    //获得的信息
                     bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
                     //压缩后的图
-                    bitmap = centerSquareScaleBitmap(bitmap,250);
+                    bitmap = centerSquareScaleBitmap(bitmap, 250);
                     /* 将Bitmap设定到ImageView */
                     image.setImageBitmap(bitmap);
-                } catch (FileNotFoundException e) {
-                    Log.e("Exception", e.getMessage(),e);
+                }
+            } catch (FileNotFoundException e) {
+                Log.e("Exception", e.getMessage(),e);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
-
     }
-
-
     /**
      * 将给定图片维持宽高比缩放后，截取正中间的正方形部分。
      * @param bitmap      原图
@@ -216,5 +328,4 @@ public class Edit_info_Fragment extends Fragment{
         }
         return result;
     }
-
 }

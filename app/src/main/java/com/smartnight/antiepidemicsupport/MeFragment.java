@@ -1,7 +1,12 @@
 package com.smartnight.antiepidemicsupport;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +34,7 @@ public class MeFragment extends Fragment {
     //组件
     private ImageView Myprofile;
     private TextView Myname;
+    private TextView Myid;
     private Button edit;
     private Button track_acount,track_post;
     private ListView lview1,lview2;
@@ -60,9 +66,23 @@ public class MeFragment extends Fragment {
         edit = view.findViewById(R.id.edit_btn);//编辑按钮
         track_acount=view.findViewById(R.id.account);//关注用户
         track_post=view.findViewById(R.id.post);//关注帖子
+        Myid = view.findViewById(R.id.MyID);
 
 
-       //编辑信息点击事件
+        SharedPreferences shp = requireActivity().getSharedPreferences("UserFile",Context.MODE_PRIVATE);
+        //头像
+        String pic = shp.getString("Picture","");
+        if(pic!=null){
+            byte[] bytes = Base64.decode(pic.getBytes(),1);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+            Myprofile.setImageBitmap(bitmap);
+        }
+
+        Myname.setText(shp.getString("Name",""));
+        Myid.setText(shp.getString("ID",""));
+
+
+        //编辑信息点击事件
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

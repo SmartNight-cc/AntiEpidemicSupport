@@ -1,7 +1,10 @@
 package com.smartnight.antiepidemicsupport;
 
+import android.content.DialogInterface;
+import android.icu.text.CaseMap;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -12,6 +15,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+
+import com.hjq.bar.OnTitleBarListener;
+import com.hjq.bar.TitleBar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,6 +30,8 @@ import java.util.zip.Inflater;
  * create an instance of this fragment.
  */
 public class track_account_Fragment extends Fragment {
+
+    private TitleBar titleBar;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -75,6 +83,24 @@ public class track_account_Fragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_track_account_, container, false);
         lview = view.findViewById(R.id.account_list);
+        titleBar = view.findViewById(R.id.titleBar);
+        titleBar.setOnTitleBarListener(new OnTitleBarListener() {
+            @Override
+            public void onLeftClick(final View v) {
+                Navigation.findNavController(v).navigateUp();
+
+            }
+
+            @Override
+            public void onTitleClick(View v) {
+
+            }
+
+            @Override
+            public void onRightClick(View v) {
+
+            }
+        });
 
         track_name=new String[]{"willow","Yicong"};
         IDnumber= new String[]{"123","456"};
