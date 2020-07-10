@@ -3,11 +3,12 @@ package com.smartnight.antiepidemicsupport;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -33,11 +34,11 @@ public class GiveFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_give, container, false);
 
-        RecyclerView recyclerView = view.findViewById(R.id.recycleView);
+        ListView listView = view.findViewById(R.id.list);
         TextView textView = view.findViewById(R.id.textView);
 
-        String father = "山东省";
-        String[] son = {"济南","青岛","威海","日照","菏泽","曲阜","临清"};
+        String father = "湖南省";
+        String[] son = {"长沙","株洲","岳阳","浏阳","张家界","湘潭","娄底"};
         String[] need = {"N95口罩","呼吸机","防护服","3M防护口罩","医用手套","医用口罩","医用消毒液"};
         int[] sum = {5000,200,500,6000,3000,2000,1000};
         int[] num = {200,40,100,400,500,150,50};
@@ -56,7 +57,12 @@ public class GiveFragment extends Fragment {
             list.add(item);
         }
 
-        StationAdapter adapter = new StationAdapter();
+        SimpleAdapter simpleAdapter =
+                new SimpleAdapter(this.getContext(),list,R.layout.stationitem,
+                        new String[]{"text1","text2","text3"},
+                        new int[]{R.id.textView3,R.id.textView5,R.id.textView6});
+        listView.setAdapter(simpleAdapter);
+
 
 
         return view;

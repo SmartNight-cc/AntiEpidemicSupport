@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.os.Handler;
@@ -29,9 +28,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.common.OperationCode;
+import com.google.common.Request;
+import com.google.common.TableCode;
+import com.google.common.UserInfoBean;
 import com.hjq.bar.OnTitleBarListener;
 import com.hjq.bar.TitleBar;
 import com.mob.MobSDK;
+
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
@@ -49,6 +58,12 @@ public class CreatFragment extends Fragment implements View.OnClickListener{
     private Button button,buttonsms;
     TitleBar titleBar;
 
+    private volatile Socket socket;
+    private String host = "47.100.10.199";
+    private int port = 9999;
+
+    private ExecutorService mThreadPool;
+
     public CreatFragment() {
         // Required empty public constructor
     }
@@ -61,7 +76,11 @@ public class CreatFragment extends Fragment implements View.OnClickListener{
 
         //如果 targetSdkVersion小于或等于22，可以忽略这一步，如果大于或等于23，需要做权限的动态申请：
         if (Build.VERSION.SDK_INT >= 23) {
-            String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_LOGS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.SET_DEBUG_APP, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.GET_ACCOUNTS, Manifest.permission.WRITE_APN_SETTINGS};
+            String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_LOGS,
+                    Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.SET_DEBUG_APP, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.GET_ACCOUNTS,
+                    Manifest.permission.WRITE_APN_SETTINGS};
             ActivityCompat.requestPermissions(requireActivity(), mPermissionList, 123);
         }
 
@@ -137,6 +156,9 @@ public class CreatFragment extends Fragment implements View.OnClickListener{
         editnum.addTextChangedListener(textWatcher);
         editpass.addTextChangedListener(textWatcher);
 
+        mThreadPool = Executors.newCachedThreadPool();
+        //clientConServer();
+
         return view;
     }
 
@@ -157,6 +179,12 @@ public class CreatFragment extends Fragment implements View.OnClickListener{
                     //短信验证成功
                     if(i == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE){
                         //用户信息传到服务器，本地保存
+                        //operation();
+                        SharedPreferences shp = requireActivity().getSharedPreferences("UserFile", Context.MODE_PRIVATE);
+                        shp.edit().putString("name",editname.getText().toString())
+                                .putString("phone",editnum.getText().toString())
+                                .putString("password",editpass.getText().toString())
+                                .commit();
                         Intent intent =new Intent(getActivity(),MainMainActivity.class);
                         startActivity(intent);
                     }else if(i == SMSSDK.EVENT_GET_VOICE_VERIFICATION_CODE){
@@ -216,7 +244,8 @@ public class CreatFragment extends Fragment implements View.OnClickListener{
         if(number.length()!=11){
             return false;
         }
-        String telRegex = "[1][358]\\d{9}";// "[1]"代表第1位为数字1，"[358]"代表第二位可以为3、5、8中的一个，"\\d{9}"代表后面是可以是0～9的数字，有9位。
+        String telRegex = "[1][358]\\d{9}";
+        // "[1]"代表第1位为数字1，"[358]"代表第二位可以为3、5、8中的一个，"\\d{9}"代表后面是可以是0～9的数字，有9位。
         if (TextUtils.isEmpty(number))
             return false;
         else
@@ -226,5 +255,49 @@ public class CreatFragment extends Fragment implements View.OnClickListener{
     public void onDestroy() {
         SMSSDK.unregisterAllEventHandler();
         super.onDestroy();
+    }
+    public void clientConServer() {
+        Log.d("TAG", "开始连接服务器");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Log.d("TAG", "开始连接服务器 进入run");
+                    socket = new Socket(host, port);
+                    socket.setSoTimeout(2000);
+                    if (socket == null) {
+                        Log.d("TAG", "socket 为空");
+                        socket = new Socket(host, port);
+                    }
+                    Log.d("TAG", "连接是否成功" + socket.isConnected());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    public void operation() {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+                    Request request = new Request();// Request对象
+                    request.setTableCode(TableCode.USERINFO);//需要操作的表为 user_info
+                    request.setOperationCode(OperationCode.INSERT);//动作：遍历所有
+                    UserInfoBean userInfoBean = new UserInfoBean();
+                    userInfoBean.setUser_name(editname.getText().toString());
+                    userInfoBean.setUser_password(editpass.getText().toString());
+                    userInfoBean.setUser_phone(editnum.getText().toString());
+                    userInfoBean.setUser_sex("男");
+                    request.setTableBean(userInfoBean);
+                    oos.writeObject(request);// 发送request
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 }

@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/postFragment"
         android:name="com.smartnight.antiepidemicsupport.PostFragment"
-        android:label="fragment_post"
-        tools:layout="@layout/fragment_post" >
+        android:label="圈子"
+        tools:layout="@layout/fragment_post">
         <action
             android:id="@+id/action_postFragment_to_addPostFragment"
             app:destination="@id/addPostFragment" />
@@ -29,8 +29,8 @@
     <fragment
         android:id="@+id/meFragment"
         android:name="com.smartnight.antiepidemicsupport.MeFragment"
-        android:label="fragment_me"
-        tools:layout="@layout/fragment_me" >
+        android:label="个人"
+        tools:layout="@layout/fragment_me">
         <action
             android:id="@+id/action_meFragment_to_track_account_Fragment"
             app:destination="@id/track_account_Fragment" />
@@ -47,13 +47,13 @@
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.smartnight.antiepidemicsupport.MapFragment"
-        android:label="fragment_map"
+        android:label="地图"
         tools:layout="@layout/fragment_map" />
     <fragment
         android:id="@+id/track_account_Fragment"
         android:name="com.smartnight.antiepidemicsupport.track_account_Fragment"
-        android:label="fragment_track_account_"
-        tools:layout="@layout/fragment_track_account_" >
+        android:label="关注的人"
+        tools:layout="@layout/fragment_track_account_">
         <action
             android:id="@+id/action_track_account_Fragment_to_meFragment"
             app:destination="@id/meFragment" />
@@ -64,8 +64,8 @@
     <fragment
         android:id="@+id/track_post_Fragment"
         android:name="com.smartnight.antiepidemicsupport.track_post_Fragment"
-        android:label="fragment_track_post_"
-        tools:layout="@layout/fragment_track_post_" >
+        android:label="关注的帖子"
+        tools:layout="@layout/fragment_track_post_">
         <action
             android:id="@+id/action_track_post_Fragment_to_meFragment"
             app:destination="@id/meFragment" />
@@ -73,8 +73,8 @@
     <fragment
         android:id="@+id/personal_Fragment"
         android:name="com.smartnight.antiepidemicsupport.personal_Fragment"
-        android:label="fragment_personal_"
-        tools:layout="@layout/fragment_personal_" >
+        android:label="TA的"
+        tools:layout="@layout/fragment_personal_">
         <action
             android:id="@+id/action_personal_Fragment_to_track_account_Fragment"
             app:destination="@id/track_account_Fragment" />
@@ -85,8 +85,8 @@
     <fragment
         android:id="@+id/edit_info_Fragment"
         android:name="com.smartnight.antiepidemicsupport.Edit_info_Fragment"
-        android:label="fragment_edit_info_"
-        tools:layout="@layout/fragment_edit_info_" >
+        android:label="编辑个人信息"
+        tools:layout="@layout/fragment_edit_info_">
         <action
             android:id="@+id/action_edit_info_Fragment_to_meFragment"
             app:destination="@id/meFragment" />
@@ -94,8 +94,8 @@
     <fragment
         android:id="@+id/show_track_Fragment"
         android:name="com.smartnight.antiepidemicsupport.show_track_Fragment"
-        android:label="fragment_show_track_"
-        tools:layout="@layout/fragment_show_track_" >
+        android:label="物流信息"
+        tools:layout="@layout/fragment_show_track_">
         <action
             android:id="@+id/action_show_track_Fragment_to_meFragment"
             app:destination="@id/meFragment" />

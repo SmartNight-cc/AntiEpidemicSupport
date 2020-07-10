@@ -24,7 +24,7 @@ public class StationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getSupportActionBar().hide();// 隐藏ActionBar
         setContentView(R.layout.activity_station);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView2);

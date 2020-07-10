@@ -9,12 +9,24 @@
     android:orientation="vertical"
     tools:context=".Edit_info_Fragment">
 
+    <com.hjq.bar.TitleBar
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:leftTitle="返回" />
+
     <!-- TODO: Update blank fragment layout -->
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:text="@string/edit"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="#18603C"
         android:textSize="20sp" />
@@ -85,11 +97,11 @@
 
         <TextView
             android:id="@+id/show_ID"
-            android:layout_weight="7"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_gravity="center"
-            />
+            android:layout_weight="7"
+            android:background="@drawable/text_look" />
 
     </LinearLayout>
 
@@ -136,11 +148,11 @@
 
         <TextView
             android:id="@+id/show_identity"
-            android:layout_weight="7"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_gravity="center"
-            />
+            android:layout_weight="7"
+            android:background="@drawable/text_look" />
 
     </LinearLayout>
 

@@ -19,7 +19,7 @@
         android:layout_marginBottom="8dp"
         android:text="启动外部浏览器或地图"
         android:textSize="18sp"
-        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintTop_toTopOf="@+id/titleBar"
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintStart_toStartOf="parent" />
 

@@ -1,5 +1,6 @@
 package com.smartnight.antiepidemicsupport;
 
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -36,7 +38,6 @@ public class ReceiveFragment extends Fragment {
 
         ListView listView = view.findViewById(R.id.listView);
         TextView textView = view.findViewById(R.id.textView2);
-        Button button = view.findViewById(R.id.button4);
 
         String father = "山东省";
         String[] need = {"N95口罩","呼吸机","防护服","3M防护口罩","医用手套","医用口罩","医用消毒液"};

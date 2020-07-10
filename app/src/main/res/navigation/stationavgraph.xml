@@ -7,11 +7,11 @@
     <fragment
         android:id="@+id/giveFragment"
         android:name="com.smartnight.antiepidemicsupport.GiveFragment"
-        android:label="fragment_give"
+        android:label="捐赠"
         tools:layout="@layout/fragment_give" />
     <fragment
         android:id="@+id/receiveFragment"
         android:name="com.smartnight.antiepidemicsupport.ReceiveFragment"
-        android:label="fragment_receive"
+        android:label="援助"
         tools:layout="@layout/fragment_receive" />
 </navigation>

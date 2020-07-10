@@ -25,10 +25,10 @@
             android:id="@+id/account_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
             android:text="name"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="#00796B"
-            android:layout_marginBottom="2dp"
+            android:textColor="@color/colorText"
             android:textSize="20dp" />
 
         <!--账号-->

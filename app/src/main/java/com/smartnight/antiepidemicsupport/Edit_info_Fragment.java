@@ -2,6 +2,7 @@ package com.smartnight.antiepidemicsupport;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -20,9 +21,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+
+import com.hjq.bar.OnTitleBarListener;
+import com.hjq.bar.TitleBar;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -35,6 +40,8 @@ import java.util.HashMap;
  */
 
 public class Edit_info_Fragment extends Fragment{
+
+    TitleBar titleBar;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -97,6 +104,7 @@ public class Edit_info_Fragment extends Fragment{
         mainMainActivity = (MainMainActivity) getActivity();
         //找到组件
         View view = inflater.inflate(R.layout.fragment_edit_info_, container, false);
+        titleBar = view.findViewById(R.id.titleBar);
         Button ok = view.findViewById(R.id.edit_ok);//确认按钮
         Button choose_pic = view.findViewById(R.id.choose_btn);//选择照片按钮
         image = view.findViewById(R.id.edit_profile);//头像组件
@@ -106,6 +114,37 @@ public class Edit_info_Fragment extends Fragment{
         EditText text_name = view.findViewById(R.id.input_name);
         EditText text_addr = view.findViewById(R.id.input_addr);
         EditText text_pwd = view.findViewById(R.id.input_pwd);
+
+        titleBar.setOnTitleBarListener(new OnTitleBarListener() {
+            @Override
+            public void onLeftClick(final View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                builder.setTitle(getString(R.string.quit_action));
+                builder.setPositiveButton(R.string.QUIT_PISOTIVE, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Navigation.findNavController(v).navigateUp();
+                    }
+                });
+                builder.setNegativeButton(R.string.QUIT_NRGATIVE, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+
+            @Override
+            public void onTitleClick(View v) {
+
+            }
+
+            @Override
+            public void onRightClick(View v) {
+
+            }
+        });
 
         //显示原来的信息
         //showInfo(text_name, show_ID,text_addr, show_identity,text_pwd);
@@ -179,7 +218,7 @@ public class Edit_info_Fragment extends Fragment{
             }
         });
 
-        //确认信息,传回和修改数据事件,待完善
+        //确认信息,传回和修改数据事件
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -212,34 +251,19 @@ public class Edit_info_Fragment extends Fragment{
      *  显示原来的信息到界面上
      */
     public void showInfo(EditText text_name, TextView show_ID, EditText text_addr, TextView show_identity, EditText text_pwd){
-        HashMap <String,String> map = GetInfo();
-        text_name.setHint(map.get("Name"));
-        show_ID.setText(map.get("ID"));
-        text_addr.setHint(map.get("Address"));
-        show_identity.setText(map.get("Identity"));
-        text_pwd.setHint(map.get("PassWord"));
-        //头像
-        String pic = map .get("Picture");
-        if(pic!=null){
-            byte[] bytes = Base64.decode(pic.getBytes(),1);
-            bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
-            image.setImageBitmap(bitmap);
+            text_name.setHint(shp.getString("Name",""));
+            show_ID.setText(shp.getString("ID",""));
+            text_addr.setHint(shp.getString("Address",""));
+            show_identity.setText(shp.getString("Identity",""));
+            text_pwd.setHint(shp.getString("PassWord",""));
+            //头像
+            String pic = shp.getString("Picture","");
+            if(pic!=null){
+                byte[] bytes = Base64.decode(pic.getBytes(),1);
+                bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                image.setImageBitmap(bitmap);
+            }
         }
-    }
-    /**
-     *  得到原来的信息
-     */
-    public HashMap<String,String>GetInfo(){
-
-        HashMap<String,String> map = new HashMap<>();
-        map.put("Picture",shp.getString("Picture",""));
-        map.put("Name",shp.getString("Name",""));
-        map.put("ID",shp.getString("ID",""));
-        map.put("Identity",shp.getString("Identity",""));
-        map.put("Address",shp.getString("Adress",""));
-        map.put("PassWord",shp.getString("PassWord",""));
-        return map;
-    }
     /**
      *  处理照片选取结果
      */

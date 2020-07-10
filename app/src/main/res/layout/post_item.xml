@@ -30,10 +30,9 @@
             android:layout_height="50dp"
             android:gravity="center_vertical"
             android:padding="5dp"
-            android:text="@string/name"
-            android:textColor="#00695C"
-            android:textSize="25sp"
-            />
+            android:text="July"
+            android:textColor="@color/colorText"
+            android:textSize="25sp" />
 
     </LinearLayout>
 

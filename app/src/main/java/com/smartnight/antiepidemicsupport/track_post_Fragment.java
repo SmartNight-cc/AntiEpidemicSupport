@@ -1,6 +1,7 @@
 package com.smartnight.antiepidemicsupport;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -8,6 +9,8 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.WindowDecorActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.NavController;
@@ -23,6 +26,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.hjq.bar.OnTitleBarListener;
+import com.hjq.bar.TitleBar;
 
 import java.util.LinkedList;
 
@@ -37,6 +42,7 @@ public class track_post_Fragment extends Fragment {
     private View view;
     private ListView post_listview;
     private Fragment fragment;
+    private TitleBar titleBar;
     //  private User user;//用户类
 
     public track_post_Fragment() {
@@ -49,6 +55,23 @@ public class track_post_Fragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_track_post_, container, false);
         //获得父Activity
+        titleBar = view.findViewById(R.id.titleBar);
+        titleBar.setOnTitleBarListener(new OnTitleBarListener() {
+            @Override
+            public void onLeftClick(final View v) {
+                Navigation.findNavController(v).navigateUp();
+            }
+
+            @Override
+            public void onTitleClick(View v) {
+
+            }
+
+            @Override
+            public void onRightClick(View v) {
+
+            }
+        });
         mainMainActivity = (MainMainActivity) getActivity();
         post_listview = view.findViewById(R.id.track_post_listView);
         fragment = this;
@@ -309,5 +332,4 @@ public class track_post_Fragment extends Fragment {
             gridLayout.addView(imageView, layoutParams);
         }
     }
-
 }

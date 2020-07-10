@@ -20,6 +20,21 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.common.OperationCode;
+import com.google.common.Request;
+import com.google.common.Response;
+import com.google.common.TableBean;
+import com.google.common.TableCode;
+import com.google.common.UserInfoBean;
+import com.mob.wrappers.UMSSDKWrapper;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +43,12 @@ public class LoginFragment extends Fragment {
     private EditText textID,textPassWord;
     private Button buttonLogin;
     private TextView textCreate;
+
+    private volatile Socket socket;
+    private String host = "47.100.10.199";
+    private int port = 9999;
+
+    private ExecutorService mThreadPool;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -65,34 +86,30 @@ public class LoginFragment extends Fragment {
         textID.addTextChangedListener(textWatcher);
         textPassWord.addTextChangedListener(textWatcher);
 
+        mThreadPool = Executors.newCachedThreadPool();
+        //clientConServer();
+
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String id = textID.getText().toString().trim();
-                String password = textPassWord.getText().toString().trim();
-                //判断：中转站账号五位，用户大于等于六位
-                if(id.length()<=5){
-                    //根据账号从服务器获取密码，判断是否正确，若正确获取其他信息保存到本地
-                    Intent intent =new Intent(getActivity(),StationActivity.class);
-                    startActivity(intent);
-                    /*if(realpassWord.equals(password)){
-                        Intent intent =new Intent(getActivity(),StationActivity.class);
+                if(textID.getText().toString().equals("410000")){
+                    if(textPassWord.getText().toString().equals("123456")){
+                        Intent intent = new Intent(requireActivity(),StationActivity.class);
                         startActivity(intent);
                     }else{
-                        Toast.makeText(requireActivity(),R.string.wrong, Toast.LENGTH_SHORT).show();
-                    }*/
+                        Toast.makeText(requireContext(),"账号或密码错误",Toast.LENGTH_SHORT).show();
+                    }
                 }else{
-                    //根据账号从服务器获取密码
-                    Intent intent =new Intent(getActivity(),MainMainActivity.class);
-                    startActivity(intent);
-                    /*SharedPreferences shp = getActivity().getSharedPreferences("UserFile", Context.MODE_PRIVATE);
-                    String realpassWord = shp.getString("PassWord",null);
-                    if(realpassWord.equals(password)){
-                        Intent intent =new Intent(getActivity(),MainMainActivity.class);
+                    //operation();
+                    SharedPreferences shp = requireActivity().getSharedPreferences("UserFile", Context.MODE_PRIVATE);
+                    String password = shp.getString("password","");
+                    Log.d("TAG:password=",password);
+                    if(textPassWord.getText().toString().equals(password)){
+                        Intent intent = new Intent(requireActivity(),MainMainActivity.class);
                         startActivity(intent);
                     }else{
-                        Toast.makeText(requireActivity(),R.string.wrong, Toast.LENGTH_SHORT).show();
-                    }*/
+                        Toast.makeText(requireContext(),"账号或密码错误",Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -104,5 +121,62 @@ public class LoginFragment extends Fragment {
             }
         });
         return view;
+    }
+    public void clientConServer() {
+        Log.d("TAG", "开始连接服务器");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Log.d("TAG", "开始连接服务器 进入run");
+                    socket = new Socket(host, port);
+                    socket.setSoTimeout(2000);
+                    if (socket == null) {
+                        Log.d("TAG", "socket 为空");
+                        socket = new Socket(host, port);
+                    }
+                    Log.d("TAG", "连接是否成功" + socket.isConnected());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    public void operation() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+                    Request request = new Request();// Request对象
+                    request.setTableCode(TableCode.USERINFO);//需要操作的表为 user_info
+                    request.setOperationCode(OperationCode.SELECT);//动作：遍历所有
+                    UserInfoBean userInfoBean = new UserInfoBean();
+                    userInfoBean.setUser_id(Integer.parseInt(textID.getText().toString()));
+                    request.setTableBean(userInfoBean);
+                    oos.writeObject(request);// 发送request
+                    Log.d("TAG","request发送成功");
+
+                    ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+                    Response response = (Response) ois.readObject();
+                    Log.d("TAG","接收到response");
+
+                    List<TableBean> list = response.getTableBeanList();//遍历response 中的list（返回的结果）
+                    for(int i=0;i<list.size();i++){
+                        UserInfoBean userInfoBean1 = (UserInfoBean) list.get(i);
+                        SharedPreferences shp = requireActivity().getSharedPreferences("UserFile",Context.MODE_PRIVATE);
+                        shp.edit().putString("name",userInfoBean1.getUser_name())
+                                .putString("password",userInfoBean1.getUser_password())
+                                .putInt("id",userInfoBean1.getUser_id())
+                                .putString("phone",userInfoBean1.getUser_phone())
+                                .commit();
+                        Log.d("TAG",userInfoBean1.getUser_name()+" "+userInfoBean1.getUser_id()+" "+
+                                userInfoBean1.getUser_password());
+                    }
+                } catch (ClassNotFoundException e) { e.printStackTrace(); }
+                  catch (IOException e) { e.printStackTrace(); }
+            }
+        }).start();
     }
 }

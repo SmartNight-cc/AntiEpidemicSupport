@@ -1,6 +1,7 @@
 package com.smartnight.antiepidemicsupport;
 
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Window;
 
@@ -16,6 +17,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences shp = this.getSharedPreferences("UserFile",MODE_PRIVATE);
+        shp.edit().putString("name","TOM")
+                .putString("password","123456")
+                .putInt("id",1)
+                .commit();
 
         navController = Navigation.findNavController(this,R.id.fragment3);
     }

@@ -41,6 +41,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.PolyUtil;
 import com.hjq.bar.OnTitleBarListener;
@@ -131,6 +132,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 handleLocation(locationResult.getLastLocation());
             }
         };
+
         titleBar.setOnTitleBarListener(new OnTitleBarListener() {
             @Override
             public void onLeftClick(View v) {
@@ -188,7 +190,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             AlertDialog dialog = builder.create();
             dialog.show();
         }
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -237,16 +241,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onMapReady(final GoogleMap googleMap) {
-        /*google demo
-        mMap = googleMap;
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));*/
         mMap = googleMap;
         LatLng start = new LatLng(location.getLatitude(),location.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(start).title("你的位置"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(start));
+        googleMap.addMarker(new MarkerOptions().position(start).title("你的位置"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(start));
 
         //获取中转站经纬度
         final LatLng end = new LatLng(37.07,114.48);
@@ -268,7 +266,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        /*OkHttpClient okHttpClient = new OkHttpClient();
+        OkHttpClient okHttpClient = new OkHttpClient();
         final Request request = new Request.Builder()
                 .url(url)
                 .get()
@@ -286,13 +284,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 System.out.println("getResponse--->: " + line);
                 drawPath(line);
             }
-        });*/
+        });
 
         requestLocationPermission();
     }
 
-    private void drawPath(String string){
-        int begin = string.indexOf("<points>");
+    private void drawPath(String result){
+        try {
+            final JSONObject jsonObject = new JSONObject(result);
+            JSONArray routeArray = jsonObject.getJSONArray("routes");
+            JSONObject routes = routeArray.getJSONObject(0);
+            JSONObject overviewPolylines = routes.getJSONObject("overview_polyline");
+            String encodedString = overviewPolylines.getString("points");
+            String statusString = jsonObject.getString("status");
+            Log.d("test: ", encodedString);
+            List<LatLng> list = decodePoly(encodedString);
+            LatLng last = null;
+            for (int i = 0; i < list.size()-1; i++) {
+                LatLng src = list.get(i);
+                LatLng dest = list.get(i+1);
+                last = dest;
+                Log.d("Last latLng:", last.latitude + ", " + last.longitude );
+                Polyline line = mMap.addPolyline(new PolylineOptions()
+                        .add(new LatLng(src.latitude, src.longitude), new LatLng(dest.latitude, dest.longitude))
+                        .width(4)
+                        .color(Color.GREEN));
+            }
+            Log.d("Last latLng:", last.latitude + ", " + last.longitude );
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        catch(ArrayIndexOutOfBoundsException e) {
+            System.err.println("Caught ArrayIndexOutOfBoundsException: "+ e.getMessage());
+        }
+        /*int begin = string.indexOf("<points>");
         int end = string.indexOf("</points>");
         String points = string.substring(begin+8,end);
         System.out.println("getPoints--->: " + points);
@@ -302,7 +327,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         polylineOptions.color(Color.GREEN);
         polylineOptions.jointType(JointType.ROUND);
         polylineOptions.width(15f);
-        mMap.addPolyline(polylineOptions);
+        mMap.addPolyline(polylineOptions);*/
+    }
+
+    private List<LatLng> decodePoly(String encoded){
+        List<LatLng> poly = new ArrayList<LatLng>();
+        int index = 0;
+        int length = encoded.length();
+        int latitude = 0;
+        int longitude = 0;
+        while(index < length){
+            int b;
+            int shift = 0;
+            int result = 0;
+            do {
+                b = encoded.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+            int destLat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            latitude += destLat;
+            shift = 0;
+            result = 0;
+            do {
+                b = encoded.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b > 0x20);
+            int destLong = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            longitude += destLong;
+            poly.add(new LatLng((latitude / 1E5),(longitude / 1E5) ));
+        }
+        return poly;
     }
 
     @SuppressLint("MissingPermission")
